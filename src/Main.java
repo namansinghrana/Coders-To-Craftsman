@@ -1,13 +1,18 @@
 import java.util.*;
-
+//New Imports for the Strategy Pattern
+import discount.NoDiscount;
+import discount.ThresholdDiscount;
+import discount.SeasonalDiscount;
 //for this step we are going to apply 
 //Exception handling and continue the factory method implementation.
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        OrderService orderService = new OrderService();
+        //Now ordeService needs a default behavoiur for discount
+        OrderService orderService = new OrderService(new NoDiscount());
         while(true){
-            System.out.println("1.Add order  2.View orders  3.Total price  4.Exit");
+            //New 5th option was added for changing the strategy
+            System.out.println("1.Add order  2.View orders  3.Total price   4.Changing discount strategy  5.Exit");
             int ch = Integer.parseInt(scanner.nextLine());
             if(ch==1){
                 System.out.print("Enter item name: ");
@@ -44,11 +49,48 @@ public class Main {
                     System.out.println("Error" + e.getMessage());
                 }
             } else if(ch==4){
+                //Code was changed and the concrete, encapsulated yet loosely coupled algorithms are being used.
+                System.out.println("Choose Strategy Type: 1.No Discount  2.Threshold Discount  3.Seasonal Discount");
+                int discountCharacter = Intege.parseInt(sc.nextLine());
+                switch (discountCharacter) {
+                    case 1:
+                        //Calculated no discount 
+                        //No trace of how it is being done
+                        //No direct service files access from viewing the code.
+                        orderService.setDiscountStrategy(new NoDiscount());
+                        System.out.println("No Discount applied.");
+                        break;
+                    case 2:
+                        //Calculated threshold discount 
+                        //No trace of how it is being done
+                        //No direct service files access from viewing the code.
+                        System.out.println("Enter the threshold");
+                        double threshold = Double.parseDouble(sc.nextLine());
+                        System.out.println("Enter the rate");
+                        double rate = Double.parseDouble(sc.nextLine());
+                        orderService.setDiscountStrategy(new ThresholdDiscount(threshold, rate));
+                        System.out.println("Threshold Discount applied.");
+                        break;
+                    case 3:
+                        //Calculated seasonal discount 
+                        //No trace of how it is being done
+                        //No direct service files access from viewing the code.
+                        System.out.println("Enter the SeasolRate");
+                        double seasonalRate = Double.parseDouble(sc.nextLine());
+                        orderService.setDiscountStrategy(new SeasonalDiscount(seasonalRate));
+                        System.out.println("Seasonal Discount applied.");
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            } else if(ch==5){
                 System.out.println("Bye");
                 break;
             } else {
                 System.out.println("Invalid");
             }
+            scanner.close();
         }
     }
 }
