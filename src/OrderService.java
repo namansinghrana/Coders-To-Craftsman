@@ -1,10 +1,26 @@
 import java.util.*;
 
+import discount.DiscountStrategy;
+
 //Self Observation Now the code feels ligther
 //Because the objects are no more hard coded.
 //And no one can directly access the objects too.
 public class OrderService {
     List<Order> orders = new ArrayList<>();
+
+    //Creating the discountStrategy button on my app.
+    private DiscountStrategy discountStrategy = new DiscountStrategy();
+
+    //Updates Constructor
+    public OrderService(DiscountStrategy discountStrategy){
+        this.discountStrategy = discountStrategy;
+        this.orders = new ArrayList<>();
+    }
+
+    //Changing strategy in real-Time
+    public void setDiscountStrategy(DiscountStrategy discountStrategy){
+        this.discountStrategy = discountStrategy;
+    }
 
     //Previously We were just creating raw objects here in OrderService
     //But now we moved the object creation to the OrderFactory
@@ -24,10 +40,11 @@ public class OrderService {
     //Made the same changes across total as well
     public double total(){
         double total =0;
-        for(Order order: orders){
-            total +=order.getPrice() * order.getQuantity();
-        }
-        if(total>100) total = total * 0.9; // random discount
-        return total;
+        //did forgot to update the newly created core
+        //logic for calculating individual total for order.
+        for(Order order: orders){ total += order.calculateTotal(); }
+        //Deleted the random discounting 
+        //& aaplied the new discount strategy.
+        return discountStrategy.applyDiscount(total);
     }
 }
