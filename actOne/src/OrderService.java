@@ -1,7 +1,8 @@
 import java.util.*;
 
 import discount.DiscountStrategy;
-
+import notification.Subject;
+import notification.Observer;
 //Self Observation Now the code feels ligther
 //Because the objects are no more hard coded.
 //And no one can directly access the objects too.

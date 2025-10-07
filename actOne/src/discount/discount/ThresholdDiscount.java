@@ -1,9 +1,10 @@
+package discount;
 //implementing thresholdDiscount behaviour for interface
 public class ThresholdDiscount implements DiscountStrategy{
     private final double threshold;
     private final double rate;
 
-    public ThresholdDiscount(int threshold, int rate){
+    public ThresholdDiscount(double threshold, double rate){
         this.threshold = threshold;
         this.rate = rate; 
     }

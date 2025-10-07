@@ -1,3 +1,4 @@
+package discount;
 //interface contract works as a trusted employee for me
 //where I can just tell him to create the discount type
 //then I do not need to handle, He will do it for me.

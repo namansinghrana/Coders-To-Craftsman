@@ -1,3 +1,4 @@
+package discount;
 //implementing the seasonalDiscount behavior for interface
 public class SeasonalDiscount implements DiscountStrategy{
     private final double rate;

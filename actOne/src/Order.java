@@ -1,3 +1,4 @@
+
 public class Order {
     //Blocked Public Access
     private String item;
@@ -24,10 +25,10 @@ public class Order {
 
     public int getQuantity(){ 
         return quantity; 
-
+    }
 
     //Extra function for calculating total in an object
-    public int calculateTotal(){
+    public double calculateTotal(){
         return price * quantity;
     }
 }

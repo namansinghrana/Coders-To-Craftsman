@@ -1,3 +1,4 @@
+package discount;
 //implementing the noDiscount for interface
 public class NoDiscount implements DiscountStrategy{
     @Override
