@@ -5,23 +5,40 @@ import discount.DiscountStrategy;
 //Self Observation Now the code feels ligther
 //Because the objects are no more hard coded.
 //And no one can directly access the objects too.
-public class OrderService {
+public class OrderService implements Subject {
     List<Order> orders = new ArrayList<>();
 
     // Creating the discountStrategy button on my app.
     private DiscountStrategy discountStrategy;
 
+    // This list represents all the observers
+    // which are yet to be defined for my program.
+    // I mean out service
+    // ---------------------------------------------------------------
     private List<Observer> observers = new ArrayList<>();
 
+    @Override
+    public void registerObservers(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void removeObservers(Observer o) {
+        observers.remove(0);
+    }
+
+    @Override
+    public void notifyObservers(String message) {
+        for (Observer o : observers) {
+            o.update(message);
+        }
+    }
+
+    // ---------------------------------------------------------------
     // Updates Constructor
     public OrderService(DiscountStrategy discountStrategy) {
         this.discountStrategy = discountStrategy;
         this.orders = new ArrayList<>();
-    }
-
-    // Changing strategy in real-Time
-    public void setDiscountStrategy(DiscountStrategy discountStrategy) {
-        this.discountStrategy = discountStrategy;
     }
 
     // Previously We were just creating raw objects here in OrderService
@@ -30,6 +47,8 @@ public class OrderService {
     // And we can just use an objectfactory to create new objects.
     public void addOrder(Order order) {
         orders.add(order);
+        // 2nd chance made during the observer pattern implementation
+        notifyObservers("New Order added: " + order.getItem());
     }
 
     // Made the same changes across showOrders
@@ -49,6 +68,14 @@ public class OrderService {
         }
         // Deleted the random discounting
         // & aaplied the new discount strategy.
+        notifyObservers("Total Calculated: " + total);
         return discountStrategy.applyDiscount(total);
     }
+
+    // Changing strategy in real-Time
+    public void setDiscountStrategy(DiscountStrategy discountStrategy) {
+        this.discountStrategy = discountStrategy;
+        notifyObservers("Dsicount Strategy changed to: " + discountStrategy.getClass().getSimpleName());
+    }
+
 }
