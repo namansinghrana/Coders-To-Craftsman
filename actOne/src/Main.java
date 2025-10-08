@@ -120,7 +120,7 @@ public class Main {
                 }
 
                 PaymentProcessor processor = new PaymentProcessor(paymentStrategy);
-                boolean success = processor.processPayment(paymentChoice);
+                boolean success = processor.processPayment(orderService.total());
                 if (success)
                     System.out.println("Payment Successfull !");
                 else
