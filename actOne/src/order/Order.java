@@ -1,5 +1,6 @@
+package order;
 
-public class Order {
+public class Order implements OrderComponent{
     //Blocked Public Access
     private String item;
     private double price;
@@ -15,20 +16,18 @@ public class Order {
 
 
     //Getters to get details
-    public String getItem(){
-        return item;
-    }
-
-    public double getPrice(){
-        return price;
-    } 
-
-    public int getQuantity(){ 
-        return quantity; 
-    }
+    public String getItem(){ return item; }
+    public double getPrice(){ return price; } 
+    public int getQuantity(){ return quantity; }
 
     //Extra function for calculating total in an object
+    @Override
     public double calculateTotal(){
         return price * quantity;
+    }
+    
+    @Override
+    public String getDescription(){
+        return item + " x" + quantity + " @ " + price;
     }
 }

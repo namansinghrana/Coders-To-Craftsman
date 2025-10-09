@@ -3,12 +3,16 @@ import java.util.*;
 //New Imports for the Strategy Pattern
 import discount.NoDiscount;
 import discount.ThresholdDiscount;
+import order.Order;
 import payment.CardPayment;
 import payment.CashPayment;
 import payment.PaymentProcessor;
 import payment.PaymentStrategy;
 import payment.UpiPayment;
 import discount.SeasonalDiscount;
+import order.OrderComponent;
+import order.ExpressDeliveryDecorator;
+import order.GiftWrapDecorator;
 
 //for this step we are going to apply
 //Exception handling and continue the factory method implementation.
@@ -39,7 +43,28 @@ public class Main {
 
                 // New implement after orderfactory
                 try {
-                    Order order = OrderFactory.createOrder(item, price, qty);
+                    //Old Order Logic
+                    // Order order = OrderFactory.createOrder(item, price, qty);
+                    // orderService.addOrder(order);
+                    
+                    //New Order Logic
+                    OrderComponent order = OrderFactory.createOrder(item, price, qty);
+                    //Gift Wrapper Implemented
+                    System.out.println("Do you want Gift Wrap ? (y/n)");
+                    String gift = scanner.nextLine();
+
+                    if(gift.equalsIgnoreCase("y")){
+                        order = new GiftWrapDecorator(order);
+                    }
+
+                    //Express Wrapper Implemented
+                    System.out.println("Do you want Express Delivery? (y/n)");
+                    String express = scanner.nextLine();1
+                    
+                    if(express.equalsIgnoreCase("y")){
+                        order = new ExpressDeliveryDecorator(order);
+                    }                    
+                    //Now we first have to typecast means convert our orderComponent into Order.
                     orderService.addOrder(order);
                     System.out.println("Order Added Successfully");
 

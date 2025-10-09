@@ -2,13 +2,15 @@ import java.util.*;
 
 import discount.DiscountStrategy;
 import notification.Subject;
+import order.Order;
+import order.OrderComponent;
 import notification.Observer;
 
 //Self Observation Now the code feels ligther
 //Because the objects are no more hard coded.
 //And no one can directly access the objects too.
 public class OrderService implements Subject {
-    List<Order> orders = new ArrayList<>();
+    List<OrderComponent> orders = new ArrayList<>();
 
     // Creating the discountStrategy button on my app.
     private DiscountStrategy discountStrategy;
@@ -47,16 +49,16 @@ public class OrderService implements Subject {
     // But now we moved the object creation to the OrderFactory
     // Now we dont have to create objects at multiple layers
     // And we can just use an objectfactory to create new objects.
-    public void addOrder(Order order) {
+    public void addOrder(OrderComponent order) {
         orders.add(order);
         // 2nd chance made during the observer pattern implementation
-        notifyObservers("New Order added: " + order.getItem());
+        notifyObservers("New Order added: " + order.getDescription());
     }
 
     // Made the same changes across showOrders
     public void showOrders() {
-        for (Order order : orders) {
-            System.out.println(order.getItem() + " x" + order.getQuantity() + " @ " + order.getPrice());
+        for (OrderComponent order : orders) {
+            System.out.println(order.getDescription());
         }
     }
 
@@ -65,7 +67,7 @@ public class OrderService implements Subject {
         double total = 0;
         // did forgot to update the newly created core
         // logic for calculating individual total for order.
-        for (Order order : orders) {
+        for (OrderComponent order : orders) {
             total += order.calculateTotal();
         }
         // Deleted the random discounting
