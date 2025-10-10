@@ -59,7 +59,7 @@ public class Main {
 
                     //Express Wrapper Implemented
                     System.out.println("Do you want Express Delivery? (y/n)");
-                    String express = scanner.nextLine();1
+                    String express = scanner.nextLine();
                     
                     if(express.equalsIgnoreCase("y")){
                         order = new ExpressDeliveryDecorator(order);
