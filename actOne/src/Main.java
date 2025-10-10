@@ -9,10 +9,12 @@ import payment.CashPayment;
 import payment.PaymentProcessor;
 import payment.PaymentStrategy;
 import payment.UpiPayment;
+import service.OrderService;
 import discount.SeasonalDiscount;
 import order.OrderComponent;
 import order.ExpressDeliveryDecorator;
 import order.GiftWrapDecorator;
+import command.*;
 
 //for this step we are going to apply
 //Exception handling and continue the factory method implementation.
@@ -23,6 +25,9 @@ public class Main {
         // Now ordeService needs a default behavoiur for discount
         OrderService orderService = new OrderService(new NoDiscount());
 
+        //Command
+        CommandManager commandManager = new CommandManager();
+
         // Trail ConsoleObserver
         ConsoleNotifier consoleNotifier = new ConsoleNotifier();
         orderService.registerObservers(consoleNotifier);
@@ -31,7 +36,7 @@ public class Main {
         while (true) {
             // New 5th option was added for changing the strategy
             System.out.println(
-                    "1.Add order  2.View orders  3.Total price   4.Changing discount strategy  5.Pay for Orders   6.Exit");
+                    "1.Add order  2.View orders  3.Total price   4.Changing discount strategy  5.Pay for Orders  6.Undo last action  7.Exit");
             int ch = Integer.parseInt(scanner.nextLine());
             if (ch == 1) {
                 System.out.print("Enter item name: ");
@@ -64,8 +69,14 @@ public class Main {
                     if(express.equalsIgnoreCase("y")){
                         order = new ExpressDeliveryDecorator(order);
                     }                    
-                    //Now we first have to typecast means convert our orderComponent into Order.
-                    orderService.addOrder(order);
+                    
+                    //New Method
+                    //Here we do the new changes according to the command pattern
+                    Command addCommand = new AddOrderCommand(orderService, order);
+                    commandManager.executeCommand(addCommand);
+                    
+                    //Old Method 
+                    //orderService.addOrder(order);
                     System.out.println("Order Added Successfully");
 
                 } catch (IllegalArgumentException e) {
@@ -151,6 +162,9 @@ public class Main {
                 else
                     System.out.println("Payment Failed !");
             } else if (ch == 6) {
+                commandManager.undoLastCommand();
+                break;
+            } else if (ch == 7) {
                 System.out.println("Bye");
                 break;
             } else {

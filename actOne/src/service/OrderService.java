@@ -1,3 +1,4 @@
+package service;
 import java.util.*;
 
 import discount.DiscountStrategy;
@@ -53,6 +54,11 @@ public class OrderService implements Subject {
         orders.add(order);
         // 2nd chance made during the observer pattern implementation
         notifyObservers("New Order added: " + order.getDescription());
+    }
+
+    public void removeOrder(OrderComponent order){
+        orders.remove(order);
+        notifyObservers("Order removed: " + order.getDescription());
     }
 
     // Made the same changes across showOrders
